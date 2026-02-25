@@ -1,38 +1,41 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { INotes } from "../interface/Notes";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
-function List() {
-  
-const API="http://localhost:3000"
-const [tasks,setTasks]=useState<any[]>([]);
 
-useEffect(()=>{
-  const getTasks = async ()=>{
-    try{
-      const res=await axios.get(`${API}/tasks`);
-      setTasks(res.data)
-      toast.success("Thành công")
-    }catch(error){
-      toast.error("Không thành công")
+function List() {
+  const API="http://localhost:3000"
+  const[notes,setNotes]=useState<INotes[]>([]);
+
+  useEffect(()=>{
+    const getAll=async()=>{
+      try{
+        const res=await axios.get(`${API}/notes`);
+        setNotes(res.data);
+        toast.success("Thành công");
+
+      }catch(error){
+        toast.success("Không thành công")
+      }
     }
-  }
-  getTasks();
-},[])
+    getAll();
+  },[])
 
 const Delete=async(id:any)=>{
   try{
-    await axios.delete(`${API}/tasks/${id}`);
-    setTasks(tasks.filter(t=> t.id !== id));
+    await axios.delete(`${API}/notes/${id}`);
+    setNotes(notes.filter(t=> t.id !== id));
     toast.success("Xóa thành công")
   }catch(error){
-    toast.error("Xóa thất bại")
+    toast.error("Xóa k thành công")
   }
 }
-  
 
 
+
+ 
 
   return (
     <div className="p-6">
@@ -47,13 +50,13 @@ const Delete=async(id:any)=>{
                 title
               </th>
               <th className="px-4 py-2 border border-green-300 text-left">
-               dueDate
+                content
               </th>
               <th className="px-4 py-2 border border-green-300 text-left">
-               priority
+                pinned
               </th>
               <th className="px-4 py-2 border border-green-300 text-left">
-                status
+                tag
               </th>
               <th className="px-4 py-2 border border-green-300 text-left">
                 action
@@ -62,23 +65,26 @@ const Delete=async(id:any)=>{
           </thead>
 
           <tbody>
-            {tasks.map((item,index)=>
-            <tr className="hover:bg-green-50" key={item.id}>
-              <td className="px-4 py-2 border border-green-300">{index+1}</td>
-              <td className="px-4 py-2 border border-green-300">{item.title}</td>
-              <td className="px-4 py-2 border border-green-300">{item.dueDate}</td>
-              <td className="px-4 py-2 border border-green-300">{item.priority}</td>
-              <td className="px-4 py-2 border border-green-300">{item.status}</td>
+            {notes.map((item,index)=>
+               <tr className="hover:bg-green-50" key={item.id}>
+                <td className="px-4 py-2 border border-green-300">{index+1}</td>
+                <td className="px-4 py-2 border border-green-300">{item.title}</td>
+                <td className="px-4 py-2 border border-green-300">{item.content}</td>
+                <td className="px-4 py-2 border border-green-300">{item.pinned}</td>
+                <td className="px-4 py-2 border border-green-300">{item.tag}</td>
 
-              <td className="px-4 py-2 border border-green-300">
 
-                <button onClick={()=>Delete(`${item.id}`)}>Xóa</button>
-                <Link to={`/edit/${item.id}`} className="ml-2">Sửa</Link>
+                <td className="px-4 py-2 border border-green-300">
 
-              </td>
-            </tr>
+                  <button onClick={()=>Delete(`${item.id}`)}>Xóa</button>
+                  <Link to={`/notes/edit/${item.id}`}>Sửa</Link>
+                
+                </td>
+              </tr>
+
             )}
-            
+           
+             
           </tbody>
         </table>
       </div>

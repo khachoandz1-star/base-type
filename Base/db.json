@@ -1,18 +1,25 @@
 {
-  "tasks": [
+  "notes": [
     {
       "id": 1,
-      "title": "Học React",
-      "dueDate": "2025-03-01",
-      "priority": "high",
-      "status": false
+      "title": "Học HTML",
+      "content": "Ghi nhớ các thẻ cơ bản",
+      "pinned": "no",
+      "tag": "Frontend"
     },
     {
       "id": 2,
-      "title": "Viết báo cáo",
-      "dueDate": "2025-03-05",
-      "priority": "medium",
-      "status": true
+      "title": "Ôn JavaScript",
+      "content": "Biến, hàm và scope",
+      "pinned": "yes",
+      "tag": "Frontend"
+    },
+    {
+      "title": "heheheh1",
+      "content": "ehehehehe",
+      "pinned": "no",
+      "tag": "back",
+      "id": 3
     }
   ],
   "users": []

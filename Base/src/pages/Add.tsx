@@ -1,83 +1,82 @@
 import axios from "axios";
+import type { INotes } from "../interface/Notes";
 import toast from "react-hot-toast";
 import { useState } from "react";
+
+
 
 function Add() {
   const API="http://localhost:3000";
 
- const [title, setTitle] = useState<any>("");
- const [dueDate,setdueDate]=useState<any>("");
- const [priority,setPriority]=useState<any>("");
- const [status,setStatus]=useState<any>("");
+  const [title,setTitle]=useState<any>("");
+  const [content,setContent]=useState<any>("");
+  const [pinned,setPinned]=useState<any>("");
+  const [tag,setTag]=useState<any>("");
+
+  const submit=async(e:any)=>{
+    e.preventDefault();
+
+    try{
+      await axios.post(`${API}/notes`,{
+        title,
+        content,
+        pinned,
+        tag,
+      })
+      toast.success("Thành công")
+    }catch(error){
+      toast.error("Thêm k thành công")
+    }
+  }
+  
  
- const submit= async(e:any)=>{
-  e.preventDefault();
-  
-  try{
-    await axios.post(`${API}/tasks`,{
-      title,
-      dueDate,
-      priority,
-      status,
-    })
-
-    toast.success("Thêm thành công")
-  }catch(error){
-  toast.error("Thêm không thành công")
- }
- }
-
-  
-
-
-
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-6 text-green-700">Thêm mới</h1>
 
-      <form className="space-y-6" onSubmit={submit}>
+      <form className="space-y-6" onSubmit={submit} >
         {/* Name */}
         <div>
           <label className="block font-medium mb-1">title</label>
           <input
+            onChange={(e)=>setTitle(e.target.value)}
             type="text"
             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-            onChange={(e)=>setTitle(e.target.value)}
           />
           
         </div>
 
         {/* Age */}
         <div>
-          <label className="block font-medium mb-1">dueDate</label>
+          <label className="block font-medium mb-1">content</label>
           <input
-            type="date"
+          onChange={(e)=>setContent(e.target.value)}
+            type="text"
             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-            onChange={(e)=>setdueDate(e.target.value)}
           />
         </div>
 
         {/* Subject */}
         <div>
-          <label className="block font-medium mb-1">status</label>
+          <label className="block font-medium mb-1">pinned</label>
           <input
+            onChange={(e)=>setPinned(e.target.value)}
             type="text"
             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-            onChange={(e)=>setStatus(e.target.value)}
           />
         </div>
 
         {/* Major */}
         <div>
-          <label className="block font-medium mb-1">priority</label>
+          <label className="block font-medium mb-1">tag</label>
           <select
-          onChange={(e)=>setPriority}
+           onChange={(e)=>setTag(e.target.value)}
             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            <option value="">Chọn priority</option>
-            <option value="low">low</option>
-            <option value="medium">medium</option>
-            <option value="high">high</option>
+            <option value="">Chọn tag</option>
+            <option value="font">font</option>
+            <option value="back">back</option>
+           
           </select>
         </div>
 

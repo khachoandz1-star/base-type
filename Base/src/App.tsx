@@ -1,37 +1,39 @@
 import { Toaster } from "react-hot-toast";
-import { Route,Routes } from "react-router-dom";
+import { Route,Routes, Link } from "react-router-dom";
 import List from "./pages/List";
-import Add from "./pages/Add"
+import Add from "./pages/Add";
 import Edit from "./pages/Edit";
+import Signup from "./pages/Signup";
+import Signin from "./pages/Signin";
 
 function App() {
   return (
     <>
       <nav className="bg-green-600 text-white shadow">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <a href="#" className="text-xl font-semibold">
+          <Link to="/" className="text-xl font-semibold">
             <strong>App</strong>
-          </a>
+          </Link>
 
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="hover:text-gray-200">
+            <Link to="/" className="hover:text-gray-200">
               Trang chủ
-            </a>
-            <a href="/list" className="hover:text-gray-200">
+            </Link>
+            <Link to="/notes/list" className="hover:text-gray-200">
               Danh sách
-            </a>
-            <a href="/add" className="hover:text-gray-200">
+            </Link>
+            <Link to="/notes/add" className="hover:text-gray-200">
               Thêm mới
-            </a>
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
-            <a href="/signin" className="hover:text-gray-200">
+            <Link to="/notes/signin" className="hover:text-gray-200">
               Đăng nhập
-            </a>
-            <a href="/signup" className="hover:text-gray-200">
+            </Link>
+            <Link to="/notes/signup" className="hover:text-gray-200">
               Đăng ký
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
@@ -43,11 +45,11 @@ function App() {
       </div>
 
       <Routes>
-
-        <Route path="/list" element={<List/>}/>
-        <Route path="/add" element={<Add/>}/>
-        <Route path="/edit/:id" element={<Edit/>}/>
-
+        <Route path="/notes/list" element={<List/>}/>
+        <Route path="/notes/add" element={<Add/>}/>
+        <Route path="/notes/edit/:id" element={<Edit/>}/>
+        <Route path="/notes/signup" element={<Signup/>}/>
+        <Route path="/notes/signin" element={<Signin/>}/>
       </Routes>
 
       <Toaster />

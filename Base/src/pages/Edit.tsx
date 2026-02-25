@@ -1,53 +1,49 @@
 import axios from "axios";
-import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
+
 function Edit() {
-  const API = "http://localhost:3000";
-  const { id } = useParams();
+ const API="http://localhost:3000";
+ const {id}=useParams();
 
-  const [title, setTitle] = useState<any>("");
-  const [dueDate, setdueDate] = useState<any>("");
-  const [priority, setPriority] = useState<any>("");
-  const [status, setStatus] = useState<any>("");
+ const [title,setTitle]=useState<any>("");
+ const [content,setContent]=useState<any>("");
+ const [pinned,setPinned]=useState<any>("");
+ const [tag,setTag]=useState<any>("");
 
-  // load dữ liệu cũ
-  useEffect(() => {
-    const getOne = async () => {
+ useEffect(()=>{
+  const getOne = async()=>{
+    try{
+      const res=await axios.get(`${API}/notes/${id}`);
+      setTitle(res.data.title);
+      setContent(res.data.const);
+      setPinned(res.data.pinned);
+      setTag(res.data.tag);
 
-      try {
-
-        const res = await axios.get(`${API}/tasks/${id}`);
-        setTitle(res.data.title);
-        setdueDate(res.data.dueDate);
-        setPriority(res.data.priority);
-        setStatus(res.data.status);
-      } catch {
-        toast.error("Không lấy được dữ liệu");
-      }
-    };
-
-    if (id) getOne();
-  }, [id]);
-
-  // submit update
-  const submit = async (e: any) => {
-    e.preventDefault();
-
-    try {
-      await axios.put(`${API}/tasks/${id}`, {
-        title,
-        dueDate,
-        priority,
-        status,
-      });
-
-      toast.success("Cập nhật thành công");
-    } catch {
-      toast.error("Cập nhật thất bại");
+    }catch(error){
+      toast.error("Không lấy đc dữ liệu")
     }
-  };
+  }
+  if(id) getOne();
+ },[id])
+
+ const submit = async(e:any)=>{
+  e.prevetDefault();
+
+  try{
+    await axios.put(`${API}/notes/${id}`,{
+      title,
+      content,
+      pinned,
+      tag,
+    })
+    toast.success("Thay đổi thành công")
+  }catch{
+    toast.error("Lỗi ko thành công")
+  }
+ }
 
   return (
     <div className="p-6">
@@ -59,42 +55,43 @@ function Edit() {
           <input
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e)=>setTitle(e.target.value)}
+
             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1">dueDate</label>
-          <input
-            type="date"
-            value={dueDate}
-            onChange={(e) => setdueDate(e.target.value)}
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-        </div>
-
-        <div>
-          <label className="block font-medium mb-1">status</label>
+          <label className="block font-medium mb-1">content</label>
           <input
             type="text"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            value={content}
+            onChange={(e)=>setContent(e.target.value)}
             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1">priority</label>
+          <label className="block font-medium mb-1">pinned</label>
+          <input
+            type="text"
+            value={pinned}
+            onChange={(e)=>setPinned(e.target.value)}
+            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">tag</label>
           <select
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
+            value={tag}
+             onChange={(e)=>setTag(e.target.value)}
             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            <option value="">Chọn priority</option>
-            <option value="low">low</option>
-            <option value="medium">medium</option>
-            <option value="high">high</option>
+            <option value="">Chọn tag</option>
+            <option value="font">font</option>
+            <option value="back">back</option>
+
           </select>
         </div>
 
