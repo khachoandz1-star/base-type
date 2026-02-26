@@ -4,46 +4,45 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 
 
+
 function Edit() {
- const API="http://localhost:3000";
- const {id}=useParams();
+  const API="http://localhost:3000";
+  const {id}=useParams();
 
- const [title,setTitle]=useState<any>("");
- const [content,setContent]=useState<any>("");
- const [pinned,setPinned]=useState<any>("");
- const [tag,setTag]=useState<any>("");
+  const[title,setTitle]=useState<any>("");
+   const[content,setContent]=useState<any>("");
+    const[pinned,setPinned]=useState<any>("");
+     const[tag,setTag]=useState<any>("");
 
- useEffect(()=>{
-  const getOne = async()=>{
-    try{
-      const res=await axios.get(`${API}/notes/${id}`);
-      setTitle(res.data.title);
-      setContent(res.data.const);
-      setPinned(res.data.pinned);
-      setTag(res.data.tag);
+     useEffect(()=>{
+      const getOne=async()=>{
+        try{
+          const res=await axios.get(`${API}/notes/${id}`);
+          setTitle(res.data.title);
+          setContent(res.data.content);
+          setPinned(res.data.pinned);
+          setTag(res.data.tag);
+        }catch(error){
+          toast.error("Ko thành công")
+        }
+      }
+      if(id) getOne();
 
-    }catch(error){
-      toast.error("Không lấy đc dữ liệu")
-    }
-  }
-  if(id) getOne();
- },[id])
+     },[id])
 
- const submit = async(e:any)=>{
-  e.prevetDefault();
-
-  try{
-    await axios.put(`${API}/notes/${id}`,{
-      title,
-      content,
-      pinned,
-      tag,
-    })
-    toast.success("Thay đổi thành công")
-  }catch{
-    toast.error("Lỗi ko thành công")
-  }
- }
+     const submit=async(e:any)=>{
+      try{
+        await axios.put(`${API}/notes/${id}`,{
+          title,
+          content,
+          pinned,
+          tag,
+        })
+        toast.success("Sửa thành công")
+      }catch(error){
+        toast.error("Sửa k thành công")
+      }
+     }
 
   return (
     <div className="p-6">
@@ -76,7 +75,7 @@ function Edit() {
           <input
             type="text"
             value={pinned}
-            onChange={(e)=>setPinned(e.target.value)}
+           onChange={(e)=>setPinned(e.target.value)}
             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
@@ -85,7 +84,7 @@ function Edit() {
           <label className="block font-medium mb-1">tag</label>
           <select
             value={tag}
-             onChange={(e)=>setTag(e.target.value)}
+            onChange={(e)=>setTag(e.target.value)}
             className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
             <option value="">Chọn tag</option>

@@ -6,6 +6,7 @@ import Edit from "./pages/Edit";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 
+
 function App() {
   return (
     <>
@@ -28,10 +29,10 @@ function App() {
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/notes/signin" className="hover:text-gray-200">
+            <Link to="/signin" className="hover:text-gray-200">
               Đăng nhập
             </Link>
-            <Link to="/notes/signup" className="hover:text-gray-200">
+            <Link to="/signup" className="hover:text-gray-200">
               Đăng ký
             </Link>
           </div>
@@ -45,11 +46,13 @@ function App() {
       </div>
 
       <Routes>
-        <Route path="/notes/list" element={<List/>}/>
-        <Route path="/notes/add" element={<Add/>}/>
-        <Route path="/notes/edit/:id" element={<Edit/>}/>
-        <Route path="/notes/signup" element={<Signup/>}/>
-        <Route path="/notes/signin" element={<Signin/>}/>
+      <Route path="/notes/list" element={<List/>}/>
+      <Route path="/notes/add" element={<Add/>}/>
+      <Route path="/notes/edit/:id" element={<Edit/>}/>
+      <Route path="/signup" element={<Signup/>}/>
+      <Route path="/signin" element={<Signin/>}/>
+      
+      
       </Routes>
 
       <Toaster />
